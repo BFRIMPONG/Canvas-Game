@@ -1,3 +1,6 @@
+var userInput = window.prompt("How many tries are allowed: ");
+const WINNING_SCORE = parseInt(userInput);
+
 var canvas;
 var canvasContext;
 var ballX = 50;
@@ -5,9 +8,9 @@ var ballY = 50;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
+
 var player1Score = 0;
 var player2Score = 0;
-const WINNING_SCORE = 3;
 
 var showingWinScreen = false;
 
@@ -16,7 +19,18 @@ var paddle2Y = 250;
 const PADDLE_THICKNESS = 10;
 const PADDLE_HEIGHT = 100;
 
-function calculateMousePos(evt) {
+function calculateMousePosition(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	};
+}
+
+function calculateMousePosition(evt) {
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
 	var mouseX = evt.clientX - rect.left - root.scrollLeft;
@@ -49,7 +63,7 @@ window.onload = function() {
 
 	canvas.addEventListener('mousemove',
 		function(evt) {
-			var mousePos = calculateMousePos(evt);
+			var mousePos = calculateMousePosition(evt);
 			paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
 		});
 }
@@ -126,6 +140,39 @@ function drawNet() {
 	}
 }
 
+// left player progress bar
+function progressBarBrown() {
+	colorRect(100, 550, 2, 20, "brown");
+	colorRect(300, 550, 2, 20, "brown");
+	for(var i=550;i<570;i+=18) {
+		if(i>551 && i <569){
+			//bottom line
+			colorRect(100, i, 200, 2, "brown");
+			continue;
+		}
+		//top line
+		colorRect(100, i, 200, 2, "brown");
+	}
+	colorRect(100, 550, player1Score*(200/WINNING_SCORE), 20, "brown");
+}
+
+// right player progress bar 
+function progressBarYellow() {
+	// code for the two vertical lines at the end 
+	colorRect(500, 550, 2, 20, "yellow");
+	colorRect(700, 550, 2, 20, "yellow");
+
+	for(var i=550;i<570;i+=18) {
+		if(i>551 && i <569){
+			colorRect(500, i, 200, 2, "yellow");
+			continue;
+		}
+		colorRect(500, i, 200, 2, "yellow");
+	}
+	colorRect(700, 550, -player2Score*(200/WINNING_SCORE), 20, "yellow");
+}
+
+
 function drawEverything() {
 	// next line blanks out the screen with black
 	colorRect(0,0,canvas.width,canvas.height,'black');
@@ -135,8 +182,10 @@ function drawEverything() {
 
 		if(player1Score >= WINNING_SCORE) {
 			canvasContext.fillText("Left Player Won", 350, 200);
+			progressBarBrown();
 		} else if(player2Score >= WINNING_SCORE) {
 			canvasContext.fillText("Right Player Won", 350, 200);
+			progressBarYellow();
 		}
 
 		canvasContext.fillText("click to continue", 350, 500);
@@ -145,11 +194,14 @@ function drawEverything() {
 
 	drawNet();
 
+	progressBarBrown();
+	progressBarYellow();
+
 	// this is left player paddle
-	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'brown');
 
 	// this is right computer paddle
-	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'yellow');
 
 	// next line draws the ball
 	colorCircle(ballX, ballY, 10, 'white');
