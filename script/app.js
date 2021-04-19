@@ -171,8 +171,8 @@ function progressBarYellow() {
 
 
 function drawEverything() {
-	// next line blanks out the screen with blue
-	colorRect(0,0,canvas.width,canvas.height,'blue');
+	// next line blanks out the screen with green
+	colorRect(0,0,canvas.width,canvas.height,'green');
 
 	if(showingWinScreen) {
 		canvasContext.fillStyle = 'white';
