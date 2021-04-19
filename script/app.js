@@ -146,11 +146,9 @@ function progressBarBrown() {
 	colorRect(300, 550, 2, 20, "brown");
 	for(var i=550;i<570;i+=18) {
 		if(i>551 && i <569){
-			//bottom line
 			colorRect(100, i, 200, 2, "brown");
 			continue;
 		}
-		//top line
 		colorRect(100, i, 200, 2, "brown");
 	}
 	colorRect(100, 550, player1Score*(200/WINNING_SCORE), 20, "brown");
@@ -158,12 +156,11 @@ function progressBarBrown() {
 
 // right player progress bar 
 function progressBarYellow() {
-	// code for the two vertical lines at the end 
 	colorRect(500, 550, 2, 20, "yellow");
 	colorRect(700, 550, 2, 20, "yellow");
 
 	for(var i=550;i<570;i+=18) {
-		if(i>551 && i <569){
+		if(i > 551 && i < 569){
 			colorRect(500, i, 200, 2, "yellow");
 			continue;
 		}
@@ -174,8 +171,8 @@ function progressBarYellow() {
 
 
 function drawEverything() {
-	// next line blanks out the screen with black
-	colorRect(0,0,canvas.width,canvas.height,'black');
+	// next line blanks out the screen with blue
+	colorRect(0,0,canvas.width,canvas.height,'blue');
 
 	if(showingWinScreen) {
 		canvasContext.fillStyle = 'white';
